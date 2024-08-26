@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginSelection from "./LoginSelection";
 import KakaoLogin from "./KakaoLogin";
 import GoogleLoginComponent from "./GoogleLogin";
+import NaverLogin from "./NaverLogin";
 import Dashboard from "./Dashboard";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginSelection />} />
         <Route path="/kakao-login" element={<KakaoLogin />} />
+        <Route path="/Naver-login" element={<NaverLogin />} />
         <Route path="/google-login" element={<GoogleLoginComponent />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>

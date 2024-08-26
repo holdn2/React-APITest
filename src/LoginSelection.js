@@ -7,6 +7,9 @@ function LoginSelection() {
   const handleKakaoLogin = () => {
     navigate("/kakao-login");
   };
+  const handleNaverLogin = () => {
+    navigate("/Naver-login");
+  };
 
   const handleGoogleLogin = () => {
     navigate("/google-login");
@@ -20,6 +23,12 @@ function LoginSelection() {
         style={{ padding: "10px 20px", fontSize: "16px", marginRight: "20px" }}
       >
         카카오 로그인
+      </button>
+      <button
+        onClick={handleNaverLogin}
+        style={{ padding: "10px 20px", fontSize: "16px", marginRight: "20px" }}
+      >
+        네이버 로그인
       </button>
       <button
         onClick={handleGoogleLogin}
