@@ -25,9 +25,8 @@ function GoogleLoginComponent() {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <div>
       <GoogleOAuthProvider clientId={googleApiKey}>
-        <h1>구글 소셜 로그인</h1>
         <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
       </GoogleOAuthProvider>
     </div>

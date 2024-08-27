@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const kakaoApiKey = process.env.REACT_APP_KAKAO_API_KEY;
 
-function Login() {
+function KakaoLogin() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,8 +51,7 @@ function Login() {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>카카오 소셜 로그인</h1>
+    <div>
       <button
         onClick={handleLogin}
         style={{ padding: "10px 20px", fontSize: "16px" }}
@@ -63,7 +62,7 @@ function Login() {
   );
 }
 
-export default Login;
+export default KakaoLogin;
 
 //Chat GPT와 대화하기
 // import React, { useEffect } from "react";
