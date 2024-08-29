@@ -12,7 +12,7 @@ function LoginSelection() {
       <div
         style={{
           marginTop: 50,
-          display: "flex",
+          display: "flex", //element를 flex container로 사용하기 위해서
           justifyContent: "center",
           alignItems: "center",
           gap: "20px", // 로그인 버튼 간 간격 조정

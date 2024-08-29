@@ -12,7 +12,7 @@ const NaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: NAVER_CLIENT_ID,
       callbackUrl: NAVER_CALLBACK_URL,
-      isPopup: true, // 팝업창으로 로그인
+      isPopup: false, // 팝업창으로 로그인
       loginButton: { color: "green", type: 3, height: 58 },
       callbackHandle: true,
     });
@@ -28,9 +28,13 @@ const NaverLogin = () => {
         const profileImageUrl = user.getProfileImage();
 
         // 대시보드로 사용자 정보 전달
-        // navigate("/dashboard", {
-        //   state: { username, profileImageUrl },
-        // });
+        navigate("/dashboard", {
+          state: {
+            username: username,
+            profileImageUrl: profileImageUrl,
+            loginMethod: "naver",
+          },
+        });
       } else {
         console.log("로그인 실패");
       }

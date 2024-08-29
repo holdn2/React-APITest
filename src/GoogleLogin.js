@@ -16,6 +16,7 @@ function GoogleLoginComponent() {
       state: {
         username: decoded.name,
         profileImageUrl: decoded.picture,
+        loginMethod: "google",
       },
     });
   };

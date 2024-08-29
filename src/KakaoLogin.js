@@ -36,6 +36,7 @@ function KakaoLogin() {
               state: {
                 username: res.kakao_account.profile.nickname,
                 profileImageUrl: res.kakao_account.profile.profile_image_url,
+                loginMethod: "kakao",
               },
             });
           },
