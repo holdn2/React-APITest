@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Status, Wrapper } from "@googlemaps/react-wrapper";
 
 const { kakao } = window;
 
@@ -8,6 +7,7 @@ function Dashboard() {
   const location = useLocation();
   const { username, profileImageUrl, loginMethod } = location.state || {};
   const mapRef = useRef(null);
+  const [map, setMap] = useState(null);
 
   useEffect(() => {
     if (loginMethod === "kakao" && mapRef.current) {
@@ -16,13 +16,36 @@ function Dashboard() {
           center: new kakao.maps.LatLng(33.45071, 126.570667),
           level: 3,
         };
-        new kakao.maps.Map(mapRef.current, options);
+        const mapInstance = new kakao.maps.Map(mapRef.current, options);
+        setMap(mapInstance);
       };
 
-      // 지도 초기화를 약간 지연시킵니다.
       setTimeout(loadMap, 100);
     }
   }, [loginMethod]);
+
+  // Daum 주소 검색 API를 통한 주소 검색 함수
+  const searchAddress = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data) {
+        // kakao.maps.services 객체가 로드된 후 Geocoder를 사용합니다.
+        const geocoder = new kakao.maps.services.Geocoder();
+
+        geocoder.addressSearch(data.address, function (result, status) {
+          if (status === kakao.maps.services.Status.OK && map) {
+            const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            map.setCenter(coords);
+
+            new kakao.maps.Marker({
+              map: map,
+              position: coords,
+            });
+          }
+        });
+      },
+    }).open();
+  };
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -50,17 +73,40 @@ function Dashboard() {
               display: "flex",
               justifyContent: "center",
               marginTop: "20px",
+              position: "relative", // 부모 요소를 기준으로 절대 위치를 설정하기 위해 relative 사용
             }}
           >
             <div>
               <h3>카카오맵</h3>
               <div
                 ref={mapRef}
-                style={{ width: "500px", height: "500px" }}
-              ></div>
+                style={{
+                  width: "500px",
+                  height: "500px",
+                  position: "relative",
+                }}
+              >
+                <button
+                  onClick={searchAddress}
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    zIndex: "1000",
+                    backgroundColor: "#fff",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  주소 검색
+                </button>
+              </div>
             </div>
           </div>
         )}
+
         {loginMethod === "google" && (
           <div
             style={{
@@ -71,8 +117,6 @@ function Dashboard() {
             }}
           >
             <h3>구글맵</h3>
-
-            {/* <Wrapper apiKey="AIzaSyCuqQROPsfe_9yg6VNX-aEVNlCJ-lw4Y6U" /> */}
           </div>
         )}
       </div>
