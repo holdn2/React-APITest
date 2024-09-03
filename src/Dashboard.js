@@ -8,6 +8,7 @@ function Dashboard() {
   const { username, profileImageUrl, loginMethod } = location.state || {};
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
+  const [curAddr, setCurAddr] = useState("카카오 기본 주소");
 
   useEffect(() => {
     if (loginMethod === "kakao" && mapRef.current) {
@@ -24,12 +25,19 @@ function Dashboard() {
     }
   }, [loginMethod]);
 
+  const addressView = (address) => {
+    setCurAddr(address);
+  };
+
   // Daum 주소 검색 API를 통한 주소 검색 함수
   const searchAddress = () => {
     new window.daum.Postcode({
       oncomplete: function (data) {
         // kakao.maps.services 객체가 로드된 후 Geocoder를 사용합니다.
         const geocoder = new kakao.maps.services.Geocoder();
+
+        console.log(data.address);
+        addressView(data.address);
 
         geocoder.addressSearch(data.address, function (result, status) {
           if (status === kakao.maps.services.Status.OK && map) {
@@ -78,6 +86,14 @@ function Dashboard() {
           >
             <div>
               <h3>카카오맵</h3>
+              <div
+                style={{
+                  display: "block",
+                  backgroundColor: "lightblue",
+                }}
+              >
+                {curAddr}
+              </div>
               <div
                 ref={mapRef}
                 style={{
